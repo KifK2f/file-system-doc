@@ -1,0 +1,15 @@
+\chapter{Structure interne d'un système de fichiers}
+	\section{Présentation générale}
+	La structure interne dépend du système de fichiers utilisé. Dans le cas d'un système ext2 ou ext3, plusieurs éléments fondamentaux interviennent.
+
+	\section{Le superbloc}
+Le superbloc contient les informations essentielles relatives au système de fichiers. Il constitue l'élément central permettant son fonctionnement.
+
+	\section{La table des inodes}
+La table des inodes contient les descripteurs des fichiers. Chaque fichier est identifié de manière unique par un numéro d'inode.
+
+	\subsection{Les répertoires}
+Les répertoires établissent la correspondance entre le nom d'un fichier et son numéro d'inode.
+
+	\subsection{Les fichiers}
+Les fichiers sont identifiés par leur inode et sont considérés comme des suites non ordonnées d'octets.

@@ -1,0 +1,39 @@
+\chapter{Le montage et le démontage des systèmes de fichiers}
+	\section{Définition du montage}
+Le montage consiste à attacher un système de fichiers à un répertoire particulier appelé point de montage.
+Cette opération permet aux utilisateurs d'accéder aux fichiers contenus sur une partition ou un périphérique.
+
+	\section{Les points de montage}
+Un point de montage est un répertoire à partir duquel les données d'un système de fichiers deviennent accessibles. Sous Unix/Linux, les répertoires couramment utilisés sont :\\
+\path{/mnt}\\
+\path{/media}
+
+	\section{La commande mount}
+La commande mount permet de monter un système de fichiers.
+Exemple :
+\path{mount -t iso9660 /dev/cdrom /media/cdrom}
+Dans cette commande :
+\begin{itemize}[label=$\bullet$]
+    \item -t iso9660 indique le type de système de fichiers ;
+    \item /dev/cdrom désigne le périphérique ;
+    \item /media/cdrom représente le point de montage.
+\end{itemize}
+
+	\section{La commande umount}
+La commande umount permet de démonter un système de fichiers.
+
+Exemple :
+\path{umount /media/cdrom}
+Après le démontage, les fichiers du périphérique ne sont plus accessibles.
+
+	\section{Gestion des processus utilisant un système de fichiers}
+Le démontage échoue lorsqu'un processus utilise encore le système de fichiers.
+
+La commande suivante permet d'identifier ces processus :
+\path{fuser -v -m /media/cdrom}
+
+Il est également possible d'interrompre ces processus grâce à :
+\path{fuser -k -TERM -v -m /media/cdrom}
+
+ou
+\path{fuser -k -v -m /media/cdrom}

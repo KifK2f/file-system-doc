@@ -1,0 +1,12 @@
+\chapter{Généralités sur les systèmes de fichiers}
+	\section{Définition d'un système de fichiers}
+Un système de fichiers définit l'organisation d'un disque ou d'une partition de disque. Il constitue une structure de données permettant de stocker les informations et de les organiser sous forme de fichiers sur des mémoires secondaires telles que les disques durs, les disquettes, les CD-ROM, les clés USB ou les disques SSD.
+
+Une telle gestion des fichiers permet de traiter, de conserver des quantités importantes de données ainsi que de les partager entre plusieurs programmes informatiques. Il offre à l'utilisateur une vue abstraite sur ses données et permet de les localiser à partir d'un chemin d'accès.
+
+	\section{Représentation pour l'utilisateur}
+Pour l'utilisateur, un système de fichiers est vu comme une arborescence : les fichiers sont regroupés dans des répertoires (concept utilisé par la plupart des systèmes d’exploitation). Ces répertoires contiennent soit des fichiers, soit récursivement d'autres répertoires. Il y a donc un répertoire racine et des sous-répertoires. Une telle organisation génère une hiérarchie de répertoires et de fichiers organisés en arbre.
+
+	\section{La notion de fichier}
+Le fichier représente la plus petite entité logique de stockage sur un disque. Il contient les informations manipulées par l'utilisateur ou les applications. Le nom d'un fichier est une chaîne de caractères, souvent de taille limitée. Aujourd'hui, quasiment l'ensemble des caractères du répertoire Unicode est généralement utilisable, mais certains caractères spécifiques ayant un sens pour le système d'exploitation peuvent être interdits ou déconseillés. C'est le cas par exemple pour les caractères « : », « / » ou « \ » sous Windows.
+Sous Windows et dans les environnements graphiques, le nom d'un fichier possède en général un suffixe (extension) séparé par un point qui est fonction du contenu du fichier : .txt pour du texte par exemple. De cette extension va dépendre le choix des applications prenant en charge ce fichier. Toutefois, sous Linux/Unix, dans les systèmes en ligne de commande et dans les langages de programmation, l'extension fait simplement partie du nom de fichier, son format est détecté par le type MIME inscrit de façon transparente dans l'en-tête des fichiers.
