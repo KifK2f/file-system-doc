@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.5.8)  26 JUN 2026 12:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.5.8)  26 JUN 2026 12:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -450,7 +450,7 @@ Here is how much of TeX's memory you used:
  34855 multiletter control sequences out of 15000+600000
  641604 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,6n,65p,649b,385s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,656b,385s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\COMPTABILITE\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi6
 00\ectt1200.pk> <C:\Users\COMPTABILITE\AppData\Local\MiKTeX\fonts/pk/ljfour/jkn
 appen/ec/dpi600\ecbx1440.pk> <C:\Users\COMPTABILITE\AppData\Local\MiKTeX\fonts/
@@ -467,7 +467,7 @@ pData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm2488.pk> <C:\Users\CO
 MPTABILITE\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1440.pk>
 <C:/Users/COMPTABILITE/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
 s/cm/cmsy10.pfb>
-Output written on FIANYO_Friedo_Index_sys_fichier.pdf (13 pages, 311605 bytes).
+Output written on FIANYO_Friedo_Index_sys_fichier.pdf (13 pages, 311611 bytes).
 
 PDF statistics:
  485 PDF objects out of 1000 (max. 8388607)
