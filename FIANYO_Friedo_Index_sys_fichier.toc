@@ -15,24 +15,26 @@
 \contentsline {section}{\numberline {3.3}Organisation sous Unix/Linux}{5}{}%
 \contentsline {section}{\numberline {3.4}Comparaison entre Windows et Unix}{5}{}%
 \contentsline {chapter}{\numberline {4}Le montage et le démontage des systèmes de fichiers}{6}{}%
-\contentsline {section}{\numberline {4.1}Définition du montage}{6}{}%
-\contentsline {section}{\numberline {4.2}Les points de montage}{6}{}%
-\contentsline {section}{\numberline {4.3}La commande mount}{6}{}%
-\contentsline {section}{\numberline {4.4}La commande umount}{6}{}%
-\contentsline {section}{\numberline {4.5}Gestion des processus utilisant un système de fichiers}{6}{}%
-\contentsline {chapter}{\numberline {5}Structure interne d'un système de fichiers}{7}{}%
-\contentsline {section}{\numberline {5.1}Présentation générale}{7}{}%
-\contentsline {section}{\numberline {5.2}Le superbloc}{7}{}%
-\contentsline {section}{\numberline {5.3}La table des inodes}{7}{}%
-\contentsline {subsection}{\numberline {5.3.1}Les répertoires}{7}{}%
-\contentsline {subsection}{\numberline {5.3.2}Les fichiers}{7}{}%
-\contentsline {chapter}{\numberline {6}Disques, partitions et systèmes de fichiers}{8}{}%
-\contentsline {section}{\numberline {6.1}Organisation physique d'un disque}{8}{}%
-\contentsline {section}{\numberline {6.2}Les partitions}{8}{}%
-\contentsline {section}{\numberline {6.3}Relation entre partition et système de fichiers}{8}{}%
-\contentsline {chapter}{\numberline {7}Les différents types de systèmes de fichiers}{9}{}%
-\contentsline {section}{\numberline {7.1}Systèmes de fichiers locaux}{9}{}%
-\contentsline {section}{\numberline {7.2}Systèmes de fichiers réseau}{9}{}%
-\contentsline {section}{\numberline {7.3}Système de fichiers optique}{9}{}%
-\contentsline {section}{\numberline {7.4}Les systèmes de fichiers journalisés}{9}{}%
-\contentsline {chapter}{\textit {Conclusion}}{10}{}%
+\contentsline {section}{\numberline {4.1}Concepts et Définitions}{6}{}%
+\contentsline {subsection}{\numberline {4.1.1}Nuance : Le cas de Windows}{6}{}%
+\contentsline {section}{\numberline {4.2}Les points de montage sous Unix}{6}{}%
+\contentsline {section}{\numberline {4.3}La commande mount}{7}{}%
+\contentsline {subsection}{\numberline {4.3.1}Astuce : Le montage loopback}{7}{}%
+\contentsline {section}{\numberline {4.4}La commande umount}{7}{}%
+\contentsline {section}{\numberline {4.5}Gestion des processus et blocages au démontage}{7}{}%
+\contentsline {chapter}{\numberline {5}Structure interne d'un système de fichiers}{8}{}%
+\contentsline {section}{\numberline {5.1}Présentation générale}{8}{}%
+\contentsline {section}{\numberline {5.2}Le superbloc}{8}{}%
+\contentsline {section}{\numberline {5.3}La table des inodes}{8}{}%
+\contentsline {subsection}{\numberline {5.3.1}Les répertoires}{8}{}%
+\contentsline {subsection}{\numberline {5.3.2}Les fichiers}{8}{}%
+\contentsline {chapter}{\numberline {6}Disques, partitions et systèmes de fichiers}{9}{}%
+\contentsline {section}{\numberline {6.1}Organisation physique d'un disque}{9}{}%
+\contentsline {section}{\numberline {6.2}Les partitions}{9}{}%
+\contentsline {section}{\numberline {6.3}Relation entre partition et système de fichiers}{9}{}%
+\contentsline {chapter}{\numberline {7}Les différents types de systèmes de fichiers}{10}{}%
+\contentsline {section}{\numberline {7.1}Systèmes de fichiers locaux}{10}{}%
+\contentsline {section}{\numberline {7.2}Systèmes de fichiers réseau}{10}{}%
+\contentsline {section}{\numberline {7.3}Système de fichiers optique}{10}{}%
+\contentsline {section}{\numberline {7.4}Les systèmes de fichiers journalisés}{10}{}%
+\contentsline {chapter}{\textit {Conclusion}}{11}{}%
