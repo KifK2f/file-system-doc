@@ -1,2 +1,10 @@
 \chapter*{\textit{Conclusion}}\addcontentsline{toc}{chapter}{\textit{Conclusion}}
-Les systèmes de fichiers jouent un rôle essentiel dans l'organisation et la gestion des données informatiques. Ils permettent de structurer les informations stockées sur différents supports et d'en faciliter l'accès. Leur fonctionnement repose sur des mécanismes tels que le formatage, le partitionnement, le montage et l'utilisation de structures internes comme les inodes et les superblocs. Enfin, il existe de nombreux types de systèmes de fichiers adaptés à différents environnements et besoins.
+Au terme de cet exposé, nous avons parcouru les concepts fondamentaux qui structurent la gestion des données dans un système informatique.
+
+Nous avons établi qu'un \textbf{système de fichiers} est bien plus qu'un simple espace de stockage~: c'est une structure de données logique qui offre à l'utilisateur une vue abstraite et cohérente de ses informations, organisées sous forme d'arborescence de fichiers et de répertoires.
+
+L'étude de l'\textbf{organisation hiérarchique} a mis en évidence une différence fondamentale d'approche entre Windows, qui expose chaque partition comme un lecteur indépendant, et Unix/Linux, qui intègre l'ensemble des systèmes de fichiers dans une arborescence unique grâce au mécanisme de \textbf{montage}. Ce dernier, piloté par les commandes \texttt{mount} et \texttt{umount} et configuré via \texttt{/etc/fstab}, constitue un mécanisme central de l'administration système sous Unix.
+
+Enfin, la diversité des \textbf{types de systèmes de fichiers} locaux (ext2, FAT, NTFS), réseau (NFS, SMB), optiques (ISO~9660, UDF) et journalisés (ext3, ext4, XFS) reflète la variété des contextes d'utilisation et des exigences en matière de performance, de compatibilité et de fiabilité. La \textbf{journalisation} en particulier représente une avancée majeure pour la cohérence des données en cas de panne.
+
+La maîtrise des systèmes de fichiers est ainsi une compétence essentielle pour tout professionnel de l'informatique, à la croisée de l'administration système, de la sécurité des données et de l'architecture des systèmes de stockage.

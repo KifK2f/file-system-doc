@@ -1,28 +1,87 @@
-\chapter{L'organisation des systèmes de fichiers}
-	\section{L'arborescence des fichiers}
-Les systèmes de fichiers utilisent une organisation hiérarchique appelée arborescence. Cette structure permet de classer les fichiers dans des répertoires et sous-répertoires.
+\chapter{Le montage et le démontage des systèmes de fichiers}
 
-	\section{Organisation sous Windows}
-Sous Windows, chaque périphérique ou partition est représenté par une lettre de lecteur.
-Exemples :
+\section{Concepts et Définitions}
+
+Dans l'univers Unix/Linux, un périphérique de stockage (clé USB, disque dur, CD-ROM) n'est pas utilisable immédiatement après son branchement. Pour qu'il devienne accessible, il doit être intégré à l'architecture globale du système.
+
+\begin{description}
+    \item[Le montage] C'est l'action logique consistant à connecter le système de fichiers d'un périphérique à un répertoire existant de l'arborescence principale. Ce répertoire d'accueil devient alors la porte d'entrée physique vers le contenu du périphérique.
+    \item[Le point de montage] Il s'agit du répertoire spécifique (souvent un dossier vide créé à cet effet) choisi pour ancrer le nouveau périphérique dans l'arbre unique du système.
+    \item[Le démontage] C'est l'opération inverse qui détache proprement le périphérique de l'arborescence. Elle garantit que toutes les données en attente d'écriture sont bien sauvegardées avant de déconnecter physiquement le support.
+\end{description}
+
+\begin{tcolorbox}[colback=black!5, colframe=black!40, arc=2mm, title=Principe fondamental]
+Au démarrage de l'ordinateur, le système effectue automatiquement un premier montage crucial : celui du disque contenant le système de fichiers principal, appelé \textbf{l'arbre racine} (\path{/}). Une fois cette racine active, d'autres montages peuvent s'y greffer automatiquement ou à la demande de l'utilisateur.
+\end{tcolorbox}
+
+\subsection{Nuance : Le cas de Windows}
+Bien que Windows privilégie historiquement l'utilisation des lettres de lecteur (\path{C:}, \path{D:}), le mécanisme de montage y est tout de même exploité de deux manières :
 \begin{itemize}[label=$\bullet$]
-    \item C: partition système
-    \item D: partition utilisateur
-    \item A: disquette
-    \item E: lecteur CD-ROM
+    \item Il permet de monter une partition directement dans un dossier NTFS vide au lieu de lui attribuer une lettre.
+    \item Il est utilisé pour "monter" des images disques virtuelles (fichiers \path{.ISO} ou \path{.VHD}) afin de naviguer à l'intérieur comme s'il s'agissait d'un support physique.
 \end{itemize}
-L'accès aux fichiers se fait par des chemins tels que : \path{C:\Documents\fichier.txt}
 
-	\section{Organisation sous Unix/Linux}
-	Sous Unix/Linux, tous les systèmes de fichiers sont regroupés dans une arborescence unique ayant pour racine : \path{/} \\
-Exemples :
+
+\section{Les points de montage sous Unix}
+Sous Unix/Linux, les répertoires par défaut dédiés à l'accueil des périphériques sont généralement situés dans :
+\begin{description}
+    \item[\path{/mnt}] Historiquement utilisé pour les montages manuels et temporaires par l'administrateur (ex: \path{/mnt/cdrom}, \path{/mnt/fd0} pour les disquettes).
+    \item[\path{/media}] Utilisé par les systèmes modernes pour les montages automatiques des médias amovibles (clés USB, disques durs externes).
+\end{description}
+
+La configuration des périphériques à monter automatiquement au démarrage est centralisée dans le fichier système \path{/etc/fstab} (\path{/etc/vfstab} sous Solaris).
+
+
+\section{La commande mount}
+La commande \texttt{mount} permet d'attacher manuellement un système de fichiers. Pour l'exécuter, il faut spécifier le type de système de fichiers, le fichier spécial du périphérique (situé dans \path{/dev/}) et le répertoire cible.
+
+Exemple :
+\begin{verbatim}
+mount -t iso9660 /dev/cdrom /media/cdrom
+\end{verbatim}
+
+Dans cette commande :
 \begin{itemize}[label=$\bullet$]
-    \item / : système principal
-    \item /home : données utilisateurs
-    \item /mnt/floppy : disquette
-    \item /mnt/cdrom : lecteur CD-ROM
+    \item \texttt{-t iso9660} indique le type de système de fichiers (ici, la norme pour les CD-ROM) ;
+    \item \path{/dev/cdrom} désigne le fichier spécial représentant le périphérique matériel ;
+    \item \path{/media/cdrom} représente le répertoire servant de point de montage.
 \end{itemize}
-L'accès aux fichiers se fait par des chemins tels que : \path{/home/utilisateur/fichier.txt}
 
-	\section{Comparaison entre Windows et Unix}
-Sous Windows, les périphériques apparaissent sous forme de lecteurs distincts. Sous Unix/Linux, tous les périphériques sont intégrés dans une même arborescence grâce au mécanisme de montage.
+Lorsqu'un montage réussit, le système inscrit cette information en temps réel dans le fichier \path{/etc/mtab} (\path{/etc/mnttab} sous Solaris) qui recense tous les montages en cours.
+
+\subsection{Astuce : Le montage loopback}
+Sur les Unix modernes, l'option \texttt{-o loop} (ou \texttt{-loop}) permet de monter directement un fichier contenant lui-même un système de fichiers autonome. C'est très utile pour inspecter le contenu d'une image disque (\path{.iso}) sans avoir à la graver.
+
+
+\section{La commande umount}
+La commande \texttt{umount} permet de détacher proprement le système de fichiers de l'arborescence. Une fois l'opération terminée, le fichier \path{/etc/mtab} est mis à jour et les fichiers du périphérique ne sont plus accessibles.
+
+Exemple :
+\begin{verbatim}
+umount /media/cdrom
+\end{verbatim}
+
+
+\section{Gestion des processus et blocages au démontage}
+L'opération de démontage échoue systématiquement si la partition est déclarée occupée ou "occupée par un processus" (\textit{device is busy}). C'est le cas si :
+\begin{itemize}[label=$\bullet$]
+    \item Un fichier du périphérique est en cours de lecture ou d'écriture ;
+    \item Un utilisateur ou un programme (comme un terminal) a positionné son répertoire de travail actuel à l'intérieur du point de montage.
+\end{itemize}
+
+Pour identifier précisément quels processus bloquent le démontage, on utilise la commande \texttt{fuser} :
+\begin{verbatim}
+fuser -v -m /media/cdrom
+\end{verbatim}
+
+Si nécessaire, l'administrateur peut forcer la fermeture de ces activités :
+\begin{itemize}[label=$\bullet$]
+    \item \textbf{De manière courtoise} (en envoyant le signal \texttt{SIGTERM} pour demander une fermeture propre) :
+    \begin{verbatim}
+    fuser -k -TERM -v -m /media/cdrom
+    \end{verbatim}
+    \item \textbf{De manière autoritaire} (en envoyant le signal \texttt{SIGKILL} qui tue immédiatement le processus) :
+    \begin{verbatim}
+    fuser -k -v -m /media/cdrom
+    \end{verbatim}
+\end{itemize}

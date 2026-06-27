@@ -1,18 +1,28 @@
-\chapter{Le formatage}
-	\section{Différence entre le formatage et le partitionnement}
-Le formatage est l'action de formater, c'est-à-dire de préparer un support de données informatique (disquette,disque dur, etc.) en y inscrivant un système de fichiers, de façon à ce qu'il soit reconnu par le système d'exploitation de l'ordinateur.
-\par Les disques de grande capacité peuvent recevoir plusieurs systèmes de fichiers, divisés en partitions logiques ; on parle alors de partitionnement. En pratique, on partitionne surtout des disques durs.
+\chapter{L'organisation des systèmes de fichiers}
+	\section{L'arborescence des fichiers}
+Les systèmes de fichiers utilisent une organisation hiérarchique appelée arborescence. Cette structure permet de classer les fichiers dans des répertoires et sous-répertoires.
 
+	\section{Organisation sous Windows}
+Sous Windows, chaque périphérique ou partition est représenté par une lettre de lecteur.
+Exemples :
+\begin{itemize}[label=$\bullet$]
+    \item C: partition système
+    \item D: partition utilisateur
+    \item A: disquette
+    \item E: lecteur CD-ROM
+\end{itemize}
+L'accès aux fichiers se fait par des chemins tels que : \path{C:\Documents\fichier.txt}
 
-\section{Les différents niveaux de formatage}
-%\begin{tcolorbox}[colback=yellow!5, colframe=green!40, arc=2mm]
-%Le formatage fait appel à deux processus complémentaires : le formatage de bas niveau (physique, d'usine) et le formatage de haut niveau (logique, utilisateur).
-%\end{tcolorbox}
+	\section{Organisation sous Unix/Linux}
+	Sous Unix/Linux, tous les systèmes de fichiers sont regroupés dans une arborescence unique ayant pour racine : \path{/} \\
+Exemples :
+\begin{itemize}[label=$\bullet$]
+    \item / : système principal
+    \item /home : données utilisateurs
+    \item /mnt/floppy : disquette
+    \item /mnt/cdrom : lecteur CD-ROM
+\end{itemize}
+L'accès aux fichiers se fait par des chemins tels que : \path{/home/utilisateur/fichier.txt}
 
-Le formatage fait appel à deux processus complémentaires : le formatage de bas niveau (physique, d'usine) et le formatage de haut niveau (logique, utilisateur).
-
-\subsection{Le formatage de bas niveau}
-Le formatage de bas niveau prépare la surface physique du disque afin qu'elle soit conforme aux attentes du contrôleur matériel. Cette opération est généralement réalisée par le fabricant à la sortie d'usine.
-
-\subsection{Le formatage de haut niveau}
-Le formatage de haut niveau consiste à inscrire les informations logicielles correspondant au système de fichiers choisi. Cette opération est effectuée par l'utilisateur ou le système d'exploitation.
+	\section{Comparaison entre Windows et Unix}
+Sous Windows, les périphériques apparaissent sous forme de lecteurs distincts. Sous Unix/Linux, tous les périphériques sont intégrés dans une même arborescence grâce au mécanisme de montage.

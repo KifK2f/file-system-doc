@@ -1,87 +1,49 @@
-\chapter{Le montage et le démontage des systèmes de fichiers}
+\chapter{Les différents types de systèmes de fichiers}
 
-\section{Concepts et Définitions}
+Les systèmes de fichiers se classent principalement selon la nature du support sur lequel ils sont déployés et la manière dont ils gèrent la persistance et la sécurité des données.
 
-Dans l'univers Unix/Linux, un périphérique de stockage (clé USB, disque dur, CD-ROM) n'est pas utilisable immédiatement après son branchement. Pour qu'il devienne accessible, il doit être intégré à l'architecture globale du système.
+\section{Systèmes de fichiers pour disques (Locaux)}
+Ces systèmes sont conçus pour structurer le stockage sur des blocs physiques de données (disques durs, SSD, clés USB).
 
 \begin{description}
-    \item[Le montage] C'est l'action logique consistant à connecter le système de fichiers d'un périphérique à un répertoire existant de l'arborescence principale. Ce répertoire d'accueil devient alors la porte d'entrée physique vers le contenu du périphérique.
-    \item[Le point de montage] Il s'agit du répertoire spécifique (souvent un dossier vide créé à cet effet) choisi pour ancrer le nouveau périphérique dans l'arbre unique du système.
-    \item[Le démontage] C'est l'opération inverse qui détache proprement le périphérique de l'arborescence. Elle garantit que toutes les données en attente d'écriture sont bien sauvegardées avant de déconnecter physiquement le support.
+    \item[Minix] Historiquement, le tout premier système de fichiers utilisé par Linux, hérité du système d'exploitation Minix. Il possédait de fortes limitations (noms de fichiers courts, taille limitée).
+    \item[ext2 (Second Extended Filesystem)] Devenu pendant longtemps le standard de Linux. Il offre d'excellentes performances mais souffre d'une vulnérabilité importante en cas de coupure de courant soudaine (absence de journalisation).
+    \item[msdos] Représente l'ancien système FAT16 standard utilisé à l'époque de MS-DOS et des premières versions de Windows. 
+    \item[vfat] Extension du format FAT (FAT32) introduite avec Windows 95 pour lever la barrière des noms de fichiers courts. Il reste universellement compatible sur presque tous les appareils (clés USB, caméras).
+    \item[ntfs (New Technology File System)] Le système de fichiers moderne par défaut de Windows (depuis Windows NT). Il intègre des fonctionnalités avancées comme la journalisation, la gestion des droits d'accès (permissions) et la compression.
 \end{description}
 
-\begin{tcolorbox}[colback=yellow!5, colframe=green!40, arc=2mm, title='Principe fondamental']
-Au démarrage de l'ordinateur, le système effectue automatiquement un premier montage crucial : celui du disque contenant le système de fichiers principal, appelé \textbf{l'arbre racine} (\path{/}). Une fois cette racine active, d'autres montages peuvent s'y greffer automatiquement ou à la demande de l'utilisateur.
-\end{tcolorbox}
 
-\subsection{Nuance : Le cas de Windows}
-Bien que Windows privilégie historiquement l'utilisation des lettres de lecteur (\path{C:}, \path{D:}), le mécanisme de montage y est tout de même exploité de deux manières :
-\begin{itemize}[label=$\bullet$]
-    \item Il permet de monter une partition directement dans un dossier NTFS vide au lieu de lui attribuer une lettre.
-    \item Il est utilisé pour "monter" des images disques virtuelles (fichiers \path{.ISO} ou \path{.VHD}) afin de naviguer à l'intérieur comme s'il s'agissait d'un support physique.
-\end{itemize}
+\section{Systèmes de fichiers réseau (Partagés)}
+Contrairement aux systèmes locaux, ils ne gèrent pas directement l'espace magnétique ou flash d'un disque dur local. Ils agissent comme une passerelle logicielle permettant d'accéder à distance aux fichiers stockés sur une autre machine à travers un protocole réseau.
 
-
-\section{Les points de montage sous Unix}
-Sous Unix/Linux, les répertoires par défaut dédiés à l'accueil des périphériques sont généralement situés dans :
 \begin{description}
-    \item[\path{/mnt}] Historiquement utilisé pour les montages manuels et temporaires par l'administrateur (ex: \path{/mnt/cdrom}, \path{/mnt/fd0} pour les disquettes).
-    \item[\path{/media}] Utilisé par les systèmes modernes pour les montages automatiques des médias amovibles (clés USB, disques durs externes).
+    \item[SMB / CIFS (Server Message Block)] Protocole de partage de fichiers développé par Microsoft, principalement utilisé dans les environnements Windows pour le partage de fichiers et d'imprimantes en réseau local.
+    \item[NFS (Network File System)] Système de fichiers réseau traditionnel de l'univers Unix et Linux, initialement développé par Sun Microsystems. Il permet d'intégrer un répertoire distant de manière transparente dans l'arborescence locale.
 \end{description}
 
-La configuration des périphériques à monter automatiquement au démarrage est centralisée dans le fichier système \path{/etc/fstab} (\path{/etc/vfstab} sous Solaris).
+
+\section{Systèmes de fichiers optiques (Médias amovibles)}
+Ces formats sont standardisés pour garantir qu'un média optique gravé puisse être lu sur n'importe quel appareil ou système d'exploitation (Universalité).
+
+\begin{description}
+    \item[ISO 9660] Norme internationale définissant la structure de fichiers pour les CD-ROM. Elle garantit une compatibilité totale entre Windows, Mac et Unix.
+    \item[UDF (Universal Disk Format)] Successeur de l'ISO 9660, optimisé pour les médias de plus grande capacité comme les DVD, Blu-ray et les supports réinscriptibles.
+\end{description}
 
 
-\section{La commande mount}
-La commande \texttt{mount} permet d'attacher manuellement un système de fichiers. Pour l'exécuter, il faut spécifier le type de système de fichiers, le fichier spécial du périphérique (situé dans \path{/dev/}) et le répertoire cible.
+\section{Les systèmes de fichiers journalisés (Fiabilité)}
+Un crash système ou une panne de courant pendant une écriture peut corrompre le système de fichiers.
 
-Exemple :
-\begin{verbatim}
-mount -t iso9660 /dev/cdrom /media/cdrom
-\end{verbatim}
+La \textbf{journalisation} résout ce problème : avant de modifier un fichier, le système écrit l'action planifiée dans une zone réservée appelée \textbf{journal}.
 
-Dans cette commande :
+\begin{description}
+    \item[Le mécanisme] En cas de coupure brutale, le système n'a plus besoin de scanner l'intégralité du disque au redémarrage (opération très longue via \texttt{fsck} ou \texttt{chkdsk}). Il lui suffit de relire le journal pour finaliser les opérations interrompues ou annuler celles qui sont incomplètes, garantissant un retour rapide à un état cohérent.
+\end{description}
+
+Exemples de systèmes locaux intégrant nativement la journalisation :
 \begin{itemize}[label=$\bullet$]
-    \item \texttt{-t iso9660} indique le type de système de fichiers (ici, la norme pour les CD-ROM) ;
-    \item \path{/dev/cdrom} désigne le fichier spécial représentant le périphérique matériel ;
-    \item \path{/media/cdrom} représente le répertoire servant de point de montage.
-\end{itemize}
-
-Lorsqu'un montage réussit, le système inscrit cette information en temps réel dans le fichier \path{/etc/mtab} (\path{/etc/mnttab} sous Solaris) qui recense tous les montages en cours.
-
-\subsection{Astuce : Le montage loopback}
-Sur les Unix modernes, l'option \texttt{-o loop} (ou \texttt{-loop}) permet de monter directement un fichier contenant lui-même un système de fichiers autonome. C'est très utile pour inspecter le contenu d'une image disque (\path{.iso}) sans avoir à la graver.
-
-
-\section{La commande umount}
-La commande \texttt{umount} permet de détacher proprement le système de fichiers de l'arborescence. Une fois l'opération terminée, le fichier \path{/etc/mtab} est mis à jour et les fichiers du périphérique ne sont plus accessibles.
-
-Exemple :
-\begin{verbatim}
-umount /media/cdrom
-\end{verbatim}
-
-
-\section{Gestion des processus et blocages au démontage}
-L'opération de démontage échoue systématiquement si la partition est déclarée occupée ou "occupée par un processus" (\textit{device is busy}). C'est le cas si :
-\begin{itemize}[label=$\bullet$]
-    \item Un fichier du périphérique est en cours de lecture ou d'écriture ;
-    \item Un utilisateur ou un programme (comme un terminal) a positionné son répertoire de travail actuel à l'intérieur du point de montage.
-\end{itemize}
-
-Pour identifier précisément quels processus bloquent le démontage, on utilise la commande \texttt{fuser} :
-\begin{verbatim}
-fuser -v -m /media/cdrom
-\end{verbatim}
-
-Si nécessaire, l'administrateur peut forcer la fermeture de ces activités :
-\begin{itemize}[label=$\bullet$]
-    \item \textbf{De manière courtoise} (en envoyant le signal \texttt{SIGTERM} pour demander une fermeture propre) :
-    \begin{verbatim}
-    fuser -k -TERM -v -m /media/cdrom
-    \end{verbatim}
-    \item \textbf{De manière autoritaire} (en envoyant le signal \texttt{SIGKILL} qui tue immédiatement le processus) :
-    \begin{verbatim}
-    fuser -k -v -m /media/cdrom
-    \end{verbatim}
+    \item \textbf{ext3 / ext4} : Évolutions journalisées d'ext2 sous Linux (\texttt{ext4} étant le standard moderne actuel).
+    \item \textbf{ntfs} : Le système Windows utilise sa propre table journalisée pour sécuriser ses métadonnées.
+    \item \textbf{ReiserFS / XFS} : Systèmes de fichiers alternatifs sous Linux, particulièrement performants pour la gestion des grands volumes de données ou de fichiers massifs (notamment \texttt{XFS}).
 \end{itemize}

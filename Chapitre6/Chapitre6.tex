@@ -1,16 +1,49 @@
-\chapter{Disques, partitions et systèmes de fichiers}
-	\section{Organisation physique d'un disque}
-L'organisation physique d'un disque repose sur plusieurs principes.
+\chapter{Les différents types de systèmes de fichiers}
 
-	\section{Les partitions}
-Un disque peut contenir plusieurs partitions.
+Les systèmes de fichiers se classent principalement selon la nature du support sur lequel ils sont déployés et la manière dont ils gèrent la persistance et la sécurité des données.
 
-On distingue :
+\section{Systèmes de fichiers pour disques (Locaux)}
+Ces systèmes sont conçus pour structurer le stockage sur des blocs physiques de données (disques durs, SSD, clés USB).
+
+\begin{description}
+    \item[Minix] Historiquement, le tout premier système de fichiers utilisé par Linux, hérité du système d'exploitation Minix. Il possédait de fortes limitations (noms de fichiers courts, taille limitée).
+    \item[ext2 (Second Extended Filesystem)] Devenu pendant longtemps le standard de Linux. Il offre d'excellentes performances mais souffre d'une vulnérabilité importante en cas de coupure de courant soudaine (absence de journalisation).
+    \item[msdos] Représente l'ancien système FAT16 standard utilisé à l'époque de MS-DOS et des premières versions de Windows. 
+    \item[vfat] Extension du format FAT (FAT32) introduite avec Windows 95 pour lever la barrière des noms de fichiers courts. Il reste universellement compatible sur presque tous les appareils (clés USB, caméras).
+    \item[ntfs (New Technology File System)] Le système de fichiers moderne par défaut de Windows (depuis Windows NT). Il intègre des fonctionnalités avancées comme la journalisation, la gestion des droits d'accès (permissions) et la compression.
+\end{description}
+
+
+\section{Systèmes de fichiers réseau (Partagés)}
+Contrairement aux systèmes locaux, ils ne gèrent pas directement l'espace magnétique ou flash d'un disque dur local. Ils agissent comme une passerelle logicielle permettant d'accéder à distance aux fichiers stockés sur une autre machine à travers un protocole réseau.
+
+\begin{description}
+    \item[SMB / CIFS (Server Message Block)] Protocole de partage de fichiers développé par Microsoft, principalement utilisé dans les environnements Windows pour le partage de fichiers et d'imprimantes en réseau local.
+    \item[NFS (Network File System)] Système de fichiers réseau traditionnel de l'univers Unix et Linux, initialement développé par Sun Microsystems. Il permet d'intégrer un répertoire distant de manière transparente dans l'arborescence locale.
+\end{description}
+
+
+\section{Systèmes de fichiers optiques (Médias amovibles)}
+Ces formats sont standardisés pour garantir qu'un média optique gravé puisse être lu sur n'importe quel appareil ou système d'exploitation (Universalité).
+
+\begin{description}
+    \item[ISO 9660] Norme internationale définissant la structure de fichiers pour les CD-ROM. Elle garantit une compatibilité totale entre Windows, Mac et Unix.
+    \item[UDF (Universal Disk Format)] Successeur de l'ISO 9660, optimisé pour les médias de plus grande capacité comme les DVD, Blu-ray et les supports réinscriptibles.
+\end{description}
+
+
+\section{Les systèmes de fichiers journalisés (Fiabilité)}
+L'article Wikipédia met l'accent sur la sécurité des structures de données (les métadonnées). Un crash système ou une panne de courant pendant une écriture peut corrompre le système de fichiers.
+
+La **journalisation** résout ce problème : avant de modifier un fichier, le système écrit l'action planifiée dans une zone réservée appelée *journal*.
+
+\begin{description}
+    \item[Le mécanisme] En cas de coupure brutale, le système n'a plus besoin de scanner l'intégralité du disque au redémarrage (opération très longue via \texttt{fsck} ou \texttt{chkdsk}). Il lui suffit de relire le journal pour finaliser les opérations interrompues ou annuler celles qui sont incomplètes, garantissant un retour rapide à un état cohérent.
+\end{description}
+
+Exemples de systèmes locaux intégrant nativement la journalisation :
 \begin{itemize}[label=$\bullet$]
-    \item C: les partitions principales ;
-    \item D: les partitions étendues ;
-    \item A: les partitions secondaires.
+    \item \textbf{ext3 / ext4} : Évolutions journalisées d'ext2 sous Linux (\texttt{ext4} étant le standard moderne actuel).
+    \item \textbf{ntfs} : Le système Windows utilise sa propre table journalisée pour sécuriser ses métadonnées.
+    \item \textbf{ReiserFS / XFS} : Systèmes de fichiers alternatifs sous Linux, particulièrement performants pour la gestion des grands volumes de données ou de fichiers massifs (notamment \texttt{XFS}).
 \end{itemize}
-
-	\section{Relation entre partition et système de fichiers}
-	Chaque partition contient un seul système de fichiers. Les disques amovibles possèdent également leur propre système de fichiers.
